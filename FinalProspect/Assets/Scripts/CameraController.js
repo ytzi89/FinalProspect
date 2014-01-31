@@ -17,14 +17,15 @@ function LateUpdate () {
 	// Update camera position
 	transform.position = Vector3(
 							cameraTarget.transform.position.x,
-							cameraTarget.transform.position.y + 5, 
-							cameraTarget.transform.position.z - offset
+							cameraTarget.transform.position.y + 50, 
+							-100 //- offset
 							);
 							
 	// Update camera rotation
 	transform.LookAt(Vector3(
 						transform.position.x, 
 						cameraTarget.transform.position.y + cameraTarget.collider.bounds.extents.y, 
-						cameraTarget.transform.position.z);
+						cameraTarget.transform.position.z
+						));
 
 }
