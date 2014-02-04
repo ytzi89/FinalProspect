@@ -1,5 +1,5 @@
 ﻿#pragma strict
-
+//erics commit
 // Public variables
 
 var cameraTarget: GameObject;
