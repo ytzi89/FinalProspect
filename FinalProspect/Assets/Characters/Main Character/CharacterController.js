@@ -8,15 +8,13 @@
 
 private var pHealth: float;
 private var pSpeed: float;
-private var pjumpspeed: float; //control how fast the main character jumps
-private var gravity: float; //set the gravity 
+private var pJumpSpeed: float; //control how fast the main character jumps
 
 function Start () {
 
 	pHealth = 100;
 	pSpeed = 8;
-	pjumpspeed = 2; //set the speed at which the player jumps 
-	gravity = 5;  //set gravity which controls how fast or slow the main character falls
+	pJumpSpeed = 7; //set the speed at which the player jumps 
 
 }
 
@@ -30,7 +28,6 @@ function Update () {
 function Movement()
 {
 	
-	
 	//setting both the horizontal and vertical movement of our character 
 	var horizontalMovement = Input.GetAxis("Horizontal") * pSpeed * Time.deltaTime;
 	var verticalMovement = Input.GetAxis("Vertical") * pSpeed * Time.deltaTime * 0.75;
@@ -39,19 +36,21 @@ function Movement()
 	
 		
 	
-		//if the space bar is pressed jump 
-			if(Input.GetButton("Jump"))
-			{
-				movement.y = pjumpspeed;
-				
-			}
-			    //apply the effects of gravity 
-				movement.y -= gravity*Time.deltaTime;
-		
+	//if the space bar is pressed jump 
+	if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+	{
+		rigidbody.velocity += Vector3.up * pJumpSpeed;
+	}
+	
 		
 		
 	
 	
 	transform.position += movement;
 		
+}
+
+function IsGrounded(): boolean
+{
+	return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + 0.1);
 }
