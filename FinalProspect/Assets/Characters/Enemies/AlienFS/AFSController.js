@@ -5,10 +5,10 @@ var playerTarget: GameObject;
 
 
 // Private Variables
-private var speed: float = 3.0;
+private var speed: float = 8.0;
 private var damage: float = 1.0;
 private var atkspeed: float = 1.0;
-private var canAttack: int = 1;
+private var canAttack: boolean = true;
 private var lastAttack: float = 0.0;
 private var direction: int = 0;
 
@@ -30,15 +30,21 @@ function Update () {
 	
 		// Line up with player
 		if(playerTarget.transform.position.z > transform.position.z)
-			movement.z = speed * Time.deltaTime;
+			movement.z = (speed * 0.5) * Time.deltaTime;
 		else
-			movement.z = -speed * Time.deltaTime;
+			movement.z = (-speed * 0.5) * Time.deltaTime;
 			
 		if(playerTarget.transform.position.z - transform.position.z >= -5
 			&& playerTarget.transform.position.z - transform.position.z <= 5)
 		{
 			if(canAttack)
 				Shoot();
+		}
+		
+		// Stay within reasonable distance from player
+		if((playerTarget.transform.position - transform.position).magnitude < 10.0)
+		{
+			movement.x = speed * Time.deltaTime;
 		}
 	}
 	
@@ -50,7 +56,7 @@ function Update () {
 function Shoot()
 {
 
-	canAttack = 0;
+	canAttack = false;
 
 	var zpos: float;
 	if(direction == 0)

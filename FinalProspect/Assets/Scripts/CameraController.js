@@ -17,15 +17,25 @@ function LateUpdate () {
 	// Update camera position
 	transform.position = Vector3(
 							cameraTarget.transform.position.x,
-							cameraTarget.transform.position.y + 50, 
-							-100 //- offset
+							50, 
+							-120 //- offset
 							);
 							
 	// Update camera rotation
 	transform.LookAt(Vector3(
 						transform.position.x, 
-						cameraTarget.transform.position.y + cameraTarget.collider.bounds.extents.y, 
-						cameraTarget.transform.position.z
+						7, 
+						-5
 						));
+
+	// Level bounds
+	if(transform.position.x <= -2)
+	{
+		transform.position.x = -2;
+	}
+	if(transform.position.x >= 562)
+	{
+		transform.position.x = 562;
+	}
 
 }
