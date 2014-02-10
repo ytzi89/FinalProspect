@@ -1,27 +1,34 @@
 ﻿#pragma strict
 
 // Private Variables
-private var speed: float = 6.0;
 
-// Test PC commit
+private var life: float;
+private var elapsedLife: float;
 
 function Start () {
+
+	life = 3.0;
+	elapsedLife = 0.0;
 
 }
 
 function Update () {
 
-	// Move bullet
-	transform.Translate(Vector3(speed, 0 ,0));
+	elapsedLife += Time.deltaTime;
+	
+	if(elapsedLife >= life)
+	{
+		Destroy(gameObject);
+	}
 
 }
 
-function GetSpeed()
+function OnCollisionEnter(collision: Collision)
 {
-	return speed;
-}
-
-function SetSpeed(spd)
-{
-	speed = spd;
+	if(collision.gameObject.tag == "Player")
+	{
+		collision.gameObject.GetComponent(PlayerController).Damage(5);
+	
+		Destroy(gameObject);
+	}
 }

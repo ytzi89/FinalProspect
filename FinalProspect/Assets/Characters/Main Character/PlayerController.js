@@ -7,9 +7,14 @@ var lastBoundObject: GameObject;
 
 // Private variables
 
-private var pHealth: float;
+private var pMaxHealth: float;
+private var pCurrentHealth: float;
 private var pSpeed: float;
 private var pJumpSpeed: float; //control how fast the main character jumps
+
+// Player damage/gun variables
+private var pDamage: float;
+private var pAttackSpeed: float;
 
 private var southBound: float;
 private var westBound: float;
@@ -18,11 +23,11 @@ private var eastBound: float;
 function Start () {
 
 	// Increase gravity
-	Physics.gravity *= 2;
+	Physics.gravity *= 5;
 
-	pHealth = 100;
+	pMaxHealth = pCurrentHealth = 100;
 	pSpeed = 12;
-	pJumpSpeed = 13; //set the speed at which the player jumps
+	pJumpSpeed = 20; //set the speed at which the player jumps
 	
 	southBound = boundObject.transform.position.z - boundObject.collider.bounds.extents.z; 
 	westBound = boundObject.transform.position.x - boundObject.collider.bounds.extents.x;
@@ -74,4 +79,40 @@ function Movement()
 function IsGrounded(): boolean
 {
 	return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + 0.1);
+}
+
+function GetMaxHealth(): float
+{
+	return pMaxHealth;
+}
+
+function GetCurrentHealth(): float
+{
+	return pCurrentHealth;
+}
+
+function Heal(amount: float)
+{
+	if(amount > 0)
+	{
+		pCurrentHealth += amount;
+		
+		if(pCurrentHealth > pMaxHealth)
+		{
+			pCurrentHealth = pMaxHealth;
+		}
+	}
+}
+
+function Damage(amount: float)
+{
+	if(amount > 0)
+	{
+		pCurrentHealth -= amount;
+		
+		if(pCurrentHealth < 0)
+		{
+			pCurrentHealth = 0;
+		}
+	}
 }

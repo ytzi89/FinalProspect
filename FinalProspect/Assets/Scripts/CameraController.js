@@ -29,13 +29,13 @@ function LateUpdate () {
 						));
 
 	// Level bounds
-	if(transform.position.x <= -2)
+	if(transform.position.x <= 1)
 	{
-		transform.position.x = -2;
+		transform.position.x = 1;
 	}
-	if(transform.position.x >= 562)
+	if(transform.position.x >= 559)
 	{
-		transform.position.x = 562;
+		transform.position.x = 559;
 	}
 
 }
