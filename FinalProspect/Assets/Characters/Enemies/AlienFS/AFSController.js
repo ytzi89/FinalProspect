@@ -11,6 +11,8 @@ private var atkSpeed: float = 0.75;
 private var lastAttack: float = 0.0;
 private var direction: int = -1;
 
+private var playerSpotted: boolean = false;
+
 function Start () {
 
 	
@@ -18,6 +20,9 @@ function Start () {
 }
 
 function Update () {
+
+	if(DistanceToPlayer() < 30.0)
+		playerSpotted = true;
 
 	// Always face the player
 	if(playerTarget.transform.position.x < transform.position.x)
@@ -36,7 +41,7 @@ function Update () {
 	}
 
 	// Player within range
-	if((playerTarget.transform.position - transform.position).magnitude < 30.0)
+	if(playerSpotted)
 	{
 		var movement: Vector3 = Vector3.zero;
 	
@@ -54,15 +59,24 @@ function Update () {
 		}
 		
 		// Stay within reasonable distance from player
-		if((playerTarget.transform.position - transform.position).magnitude < 10.0)
+		if(DistanceToPlayer() < 10.0)
 		{
 			movement.x = speed * (-direction) * Time.deltaTime;
+		}
+		else if(DistanceToPlayer() > 20.0)
+		{
+			movement.x = speed * direction * Time.deltaTime;
 		}
 	}
 	
 	// Apply movement
 	transform.Translate(movement);
 
+}
+
+function DistanceToPlayer()
+{
+	return (playerTarget.transform.position - transform.position).magnitude;;
 }
 
 function CanAttack(): boolean
