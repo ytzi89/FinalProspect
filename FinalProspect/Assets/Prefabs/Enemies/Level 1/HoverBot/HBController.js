@@ -17,15 +17,20 @@ private var isAttacking: boolean = false;
 
 private var health: float = 5.0;
 
+private var permanentY: float;
+
 function Start () {
 
 	playerTarget = GameObject.FindGameObjectWithTag("Player");
 
-	transform.position.y = playerTarget.collider.bounds.extents.y * 4;
+	permanentY = transform.position.y = playerTarget.collider.bounds.extents.y * 4;
 
 }
 
 function Update () {
+
+	// Ensure height is correct
+	transform.position.y = permanentY;
 
 	if(health <= 0)
 		Destroy(gameObject);
@@ -105,7 +110,7 @@ function DistanceToPlayer()
 function Shoot()
 {		
 
-	var ypos = transform.position.y - 2;
+	var ypos = transform.position.y - 1;
 
 	var newBullet: GameObject = Instantiate(bulletObject.gameObject, Vector3(transform.position.x, ypos, transform.position.z), Quaternion.identity) as GameObject;
 	
