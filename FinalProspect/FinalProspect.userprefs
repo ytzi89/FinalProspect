@@ -1,12 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Characters/Main Character/PlayerController.js">
     <Files>
-      <File FileName="Assets/Characters/Enemies/AlienFS/AFSController.js" Line="10" Column="35" />
-      <File FileName="Assets/Prefabs/Bullets/AlienFSBullet/BulletController.js" Line="29" Column="3" />
-      <File FileName="Assets/Scripts/CameraController.js" Line="38" Column="29" />
-      <File FileName="Assets/Characters/Main Character/PlayerHealth.js" Line="45" Column="64" />
-      <File FileName="Assets/Characters/Main Character/PlayerController.js" Line="30" Column="17" />
+      <File FileName="Assets/Characters/Main Character/PlayerController.js" Line="154" Column="21" />
+      <File FileName="Assets/Prefabs/Enemies/Level 1/HoverBot/HBController.js" Line="1" Column="1" />
+      <File FileName="Assets/Prefabs/Enemies/Level 1/AlienFootSoldier/AFSController.js" Line="1" Column="1" />
+      <File FileName="Assets/Characters/Main Character/PlayerHealth.js" Line="68" Column="120" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

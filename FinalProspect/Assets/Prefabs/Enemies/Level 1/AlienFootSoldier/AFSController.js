@@ -6,22 +6,29 @@ var bulletObject: GameObject;
 
 // Private Variables
 private var speed: float = 5.0;
-private var damage: float = 1.0;
+private var damage: float = 5.0;
 private var atkSpeed: float = 0.75;
 private var lastAttack: float = 0.0;
 private var direction: int = -1;
 
 private var playerSpotted: boolean = false;
 
+private var health: float = 10.0;
+
 function Start () {
 
-	
+	playerTarget = GameObject.FindGameObjectWithTag("Player");
 
 }
 
 function Update () {
 
-	if(DistanceToPlayer() < 30.0)
+	if(health <= 0)
+	{
+		Destroy(gameObject);
+	}
+
+	if(DistanceToPlayer() < 20.0)
 		playerSpotted = true;
 
 	// Always face the player
@@ -46,13 +53,16 @@ function Update () {
 		var movement: Vector3 = Vector3.zero;
 	
 		// Line up with player
-		if(playerTarget.transform.position.z > transform.position.z)
-			movement.z = speed * Time.deltaTime;
-		else
-			movement.z = -speed * Time.deltaTime;
+		if(playerTarget.transform.position.z != transform.position.z)
+		{
+			if(playerTarget.transform.position.z > transform.position.z)
+				movement.z = speed * 1.5 * Time.deltaTime;
+			else
+				movement.z = -speed * 1.5 * Time.deltaTime;
+		}
 			
-		if(playerTarget.transform.position.z - transform.position.z >= -1
-			&& playerTarget.transform.position.z - transform.position.z <= 1)
+		if(playerTarget.transform.position.z - transform.position.z >= -.5
+			&& playerTarget.transform.position.z - transform.position.z <= .5)
 		{
 			if(CanAttack())
 				Shoot();
@@ -63,7 +73,7 @@ function Update () {
 		{
 			movement.x = speed * (-direction) * Time.deltaTime;
 		}
-		else if(DistanceToPlayer() > 20.0)
+		else if(DistanceToPlayer() > 15.0)
 		{
 			movement.x = speed * direction * Time.deltaTime;
 		}
@@ -81,7 +91,9 @@ function DistanceToPlayer()
 
 function CanAttack(): boolean
 {
-	if(lastAttack >= atkSpeed)
+	if(lastAttack >= atkSpeed
+		&& playerTarget.transform.position.x - transform.position.x <= 15
+		&& playerTarget.transform.position.x - transform.position.x >= -15)
 		return true;
 		
 	return false;
@@ -94,7 +106,16 @@ function Shoot()
 	var xpos: float = transform.position.x + (1 * direction);
 
 	var newBullet: GameObject = Instantiate(bulletObject.gameObject, Vector3(xpos, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-								
+	
+	newBullet.gameObject.GetComponent(EnemyBulletController).SetDamage(damage);
+	newBullet.gameObject.GetComponent(EnemyBulletController).SetDirection(Vector3(direction, 0, 0));
+	
 	newBullet.rigidbody.AddForce(Vector3(direction * 1000, 0, 0));
 	
+}
+
+function Damage(amount: float)
+{
+	if(amount > 0)
+		health -= amount;
 }

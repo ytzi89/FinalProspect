@@ -5,22 +5,38 @@
 var boundObject: GameObject;
 var lastBoundObject: GameObject;
 
+var playerBullet: GameObject;
+
 // Private variables
+
+private var cameraObject: Camera;
 
 private var pMaxHealth: float;
 private var pCurrentHealth: float;
 private var pSpeed: float;
 private var pJumpSpeed: float; //control how fast the main character jumps
+private var direction: float;
 
 // Player damage/gun variables
 private var pDamage: float;
 private var pAttackSpeed: float;
+private var pLastAttack: float;
 
+private var northBound: float;
 private var southBound: float;
 private var westBound: float;
 private var eastBound: float;
 
 function Start () {
+
+	cameraObject = GameObject.FindGameObjectWithTag("MainCamera").camera;
+
+	direction = 1;	// Start right
+
+	// Default attack settings
+	pDamage = 5.0;
+	pAttackSpeed = 0.5;
+	pLastAttack = pAttackSpeed;
 
 	// Increase gravity
 	Physics.gravity *= 5;
@@ -29,6 +45,7 @@ function Start () {
 	pSpeed = 12;
 	pJumpSpeed = 20; //set the speed at which the player jumps
 	
+	northBound = boundObject.transform.position.z + boundObject.collider.bounds.extents.z;
 	southBound = boundObject.transform.position.z - boundObject.collider.bounds.extents.z; 
 	westBound = boundObject.transform.position.x - boundObject.collider.bounds.extents.x;
 	eastBound = lastBoundObject.transform.position.x + boundObject.collider.bounds.extents.x;
@@ -38,6 +55,45 @@ function Start () {
 function Update () {
 	
 	Movement();
+	
+	PlayerActions();
+}
+
+function PlayerActions()
+{
+	if(pLastAttack < pAttackSpeed)
+		pLastAttack += Time.deltaTime;
+
+	if(Input.GetMouseButton(0))
+	{
+		if(pLastAttack >= pAttackSpeed)
+			Shoot();
+	}
+}
+
+function Shoot()
+{
+	var mp = Input.mousePosition;
+	mp = cameraObject.ScreenToWorldPoint(mp);
+	
+	var dir:float = mp.x;
+	if(dir >= transform.position.x)
+		dir = 1;
+	else
+		dir = -1;
+
+	var xpos = collider.bounds.center.x + (dir * 1);
+
+	var newBullet: GameObject = Instantiate(playerBullet.gameObject,
+											Vector3(xpos, transform.position.y, transform.position.z), 
+											Quaternion.identity) as GameObject;
+											
+	newBullet.gameObject.GetComponent(PlayerBulletController).SetDamage(pDamage);
+	
+	newBullet.gameObject.GetComponent(PlayerBulletController).SetDirection(dir);										
+	//newBullet.rigidbody.AddForce(Vector3(dir * 1500, 0, 0));
+	
+	pLastAttack = 0.0;
 }
 
 // Player movement
@@ -46,7 +102,7 @@ function Movement()
 	
 	//setting both the horizontal and vertical movement of our character 
 	var horizontalMovement = Input.GetAxis("Horizontal") * pSpeed * Time.deltaTime;
-	var verticalMovement = Input.GetAxis("Vertical") * pSpeed * Time.deltaTime;// * 0.75;
+	var verticalMovement = Input.GetAxis("Vertical") * pSpeed * 1.5 * Time.deltaTime;// * 0.75;
 	//store the horizont and vertical movement into on 3d vector variable
 	var movement = Vector3(horizontalMovement, 0, verticalMovement);
 	
@@ -58,12 +114,22 @@ function Movement()
 	}
 	
 	
-	transform.position += movement;
+	transform.Translate(movement);
+	
+	// Get direction
+	if(movement.x > 0.0)
+		direction = 1;
+	else if(movement.x < 0.0)
+		direction = -1;
 	
 	// Check bounds
 	if(transform.position.z - (collider.bounds.extents.z * 0.5) <= southBound)
 	{
 		transform.position.z = southBound + (collider.bounds.extents.z * 0.5);
+	}
+	if(transform.position.z + (collider.bounds.extents.z * 0.5) >= northBound)
+	{
+		transform.position.z = northBound - (collider.bounds.extents.z * 0.5);
 	}
 	if(transform.position.x - (collider.bounds.extents.x * 0.5) <= westBound)
 	{
@@ -79,6 +145,16 @@ function Movement()
 function IsGrounded(): boolean
 {
 	return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + 0.1);
+}
+
+function GetAttackSpeed(): float
+{
+	return pAttackSpeed;
+}
+
+function GetLastAttack(): float
+{
+	return pLastAttack;
 }
 
 function GetMaxHealth(): float
