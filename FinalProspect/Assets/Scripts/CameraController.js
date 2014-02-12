@@ -24,18 +24,18 @@ function LateUpdate () {
 	// Update camera rotation
 	transform.LookAt(Vector3(
 						transform.position.x, 
-						7, 
+						5, 
 						-5
 						));
 
 	// Level bounds
-	if(transform.position.x <= 1)
+	if(transform.position.x <= 4)
 	{
-		transform.position.x = 1;
+		transform.position.x = 4;
 	}
-	if(transform.position.x >= 559)
+	if(transform.position.x >= 557)
 	{
-		transform.position.x = 559;
+		transform.position.x = 557;
 	}
 
 }

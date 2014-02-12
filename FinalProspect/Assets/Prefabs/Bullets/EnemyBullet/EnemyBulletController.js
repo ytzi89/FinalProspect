@@ -27,22 +27,36 @@ function Update () {
 	
 	// Move bullet
 	transform.Translate(speed * direction);
+	
+	CheckCollision();
 
 }
 
-function OnCollisionEnter(collision: Collision)
+function CheckCollision()
 {
-	if(collision.gameObject.tag == "Player")
-	{
-		collision.gameObject.GetComponent(PlayerController).Damage(damage);
+	var playerTarget: GameObject = GameObject.FindGameObjectWithTag("Player");
 	
+	if(collider.bounds.center.x <= playerTarget.collider.bounds.center.x + playerTarget.collider.bounds.extents.x
+		&& collider.bounds.center.x >= playerTarget.collider.bounds.center.x - playerTarget.collider.bounds.extents.x)
+		{
+			if(collider.bounds.center.z <= playerTarget.collider.bounds.center.z + playerTarget.collider.bounds.extents.z
+				&& collider.bounds.center.z >= playerTarget.collider.bounds.center.z - playerTarget.collider.bounds.extents.z)
+				{
+					if(collider.bounds.center.y <= playerTarget.collider.bounds.center.y + playerTarget.collider.bounds.extents.y
+						&& collider.bounds.center.y >= playerTarget.collider.bounds.center.y - playerTarget.collider.bounds.extents.y)
+						{
+							playerTarget.gameObject.GetComponent(PlayerController).Damage(damage);
+						
+							Destroy(gameObject);
+						}
+				}
+		}
+		
+	if(transform.position.y < 0)
+	{
 		Destroy(gameObject);
 	}
-	
-	if(collision.gameObject.tag == "Ground")
-	{
-		Destroy(gameObject);
-	}
+		
 }
 
 function SetDamage(dmg: float)

@@ -18,6 +18,7 @@ private var pJumpSpeed: float; //control how fast the main character jumps
 private var direction: float;
 
 // Player damage/gun variables
+private var pWeapon: int;
 private var pDamage: float;
 private var pAttackSpeed: float;
 private var pLastAttack: float;
@@ -27,7 +28,14 @@ private var southBound: float;
 private var westBound: float;
 private var eastBound: float;
 
+// Score
+private var playerScore: float;
+
 function Start () {
+
+	pWeapon = 0;	// Starter weapon (pistol)
+
+	playerScore = 0.0;
 
 	cameraObject = GameObject.FindGameObjectWithTag("MainCamera").camera;
 
@@ -54,6 +62,9 @@ function Start () {
 
 function Update () {
 	
+	if(pCurrentHealth <= 0)
+		Death();
+	
 	Movement();
 	
 	PlayerActions();
@@ -69,6 +80,20 @@ function PlayerActions()
 		if(pLastAttack >= pAttackSpeed)
 			Shoot();
 	}
+	
+	// Switch weapon
+	if(Input.GetKeyDown(KeyCode.Alpha1) && pWeapon != 0)
+	{
+		ChangeWeapon(0);
+	}
+	if(Input.GetKeyDown(KeyCode.Alpha2) && pWeapon != 1)
+	{
+		ChangeWeapon(1);
+	}
+	if(Input.GetKeyDown(KeyCode.Alpha3) && pWeapon != 2)
+	{
+		ChangeWeapon(2);
+	}
 }
 
 function Shoot()
@@ -82,7 +107,7 @@ function Shoot()
 	else
 		dir = -1;
 
-	var xpos = collider.bounds.center.x + (dir * 1);
+	var xpos = collider.bounds.center.x + (dir * 2);
 
 	var newBullet: GameObject = Instantiate(playerBullet.gameObject,
 											Vector3(xpos, transform.position.y, transform.position.z), 
@@ -191,4 +216,48 @@ function Damage(amount: float)
 			pCurrentHealth = 0;
 		}
 	}
+}
+
+function GetScore(): float
+{
+	return playerScore;
+}
+
+function AddScore(amount: float)
+{
+	playerScore += amount;
+}
+
+function ChangeWeapon(wpn: int)
+{
+	pWeapon = wpn;
+	
+	switch(wpn)
+	{
+		case 0:	// Pistol
+			pDamage = 5.0;
+			pAttackSpeed = 0.5;
+			pLastAttack = 0.0;
+			break;
+		case 1:	// Machine gun
+			pDamage = 2.0;
+			pAttackSpeed = 0.1;
+			pLastAttack = 0.0;
+			break;
+		case 2: // Laser
+			pDamage = 15.0;
+			pAttackSpeed = 1.5;
+			pLastAttack = 0.0;
+			break;
+	}
+}
+
+function GetCurrentWeapon(): int
+{
+	return pWeapon;
+}
+
+function Death()
+{
+	
 }

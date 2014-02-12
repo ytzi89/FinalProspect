@@ -5,7 +5,7 @@ var playerTarget: GameObject;
 var bulletObject: GameObject;
 
 // Private Variables
-private var speed: float = 6.0;
+private var speed: float = 10.0;
 private var damage: float = 15.0;
 private var atkSpeed: float = 0.4;
 private var atkCounter: float = 0.0;
@@ -19,11 +19,18 @@ private var health: float = 5.0;
 
 private var permanentY: float;
 
+private var scoreValue: float = 25.0;
+
+// HoverBot Array
+private var hbArray: GameObject[];
+
 function Start () {
 
 	playerTarget = GameObject.FindGameObjectWithTag("Player");
 
 	permanentY = transform.position.y = playerTarget.collider.bounds.extents.y * 4;
+	
+	hbArray = GameObject.FindGameObjectsWithTag("HoverBot");
 
 }
 
@@ -33,7 +40,7 @@ function Update () {
 	transform.position.y = permanentY;
 
 	if(health <= 0)
-		Destroy(gameObject);
+		Death();
 
 	if(DistanceToPlayer() < 30.0)
 		playerSpotted = true;
@@ -127,4 +134,11 @@ function Damage(amount: float)
 {
 	if(amount > 0)
 		health -= amount;
+}
+
+function Death()
+{
+	playerTarget.GetComponent(PlayerController).AddScore(scoreValue);
+
+	Destroy(gameObject);
 }

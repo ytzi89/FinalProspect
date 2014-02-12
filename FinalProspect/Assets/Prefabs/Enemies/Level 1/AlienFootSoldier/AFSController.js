@@ -15,9 +15,16 @@ private var playerSpotted: boolean = false;
 
 private var health: float = 10.0;
 
+private var scoreValue: float = 10.0;
+
+// AlienFS Array
+var afsArray: GameObject[];
+
 function Start () {
 
 	playerTarget = GameObject.FindGameObjectWithTag("Player");
+
+	afsArray = GameObject.FindGameObjectsWithTag("AlienFS");
 
 }
 
@@ -25,7 +32,7 @@ function Update () {
 
 	if(health <= 0)
 	{
-		Destroy(gameObject);
+		Death();
 	}
 
 	if(DistanceToPlayer() < 20.0)
@@ -61,8 +68,8 @@ function Update () {
 				movement.z = -speed * 1.5 * Time.deltaTime;
 		}
 			
-		if(playerTarget.transform.position.z - transform.position.z >= -.5
-			&& playerTarget.transform.position.z - transform.position.z <= .5)
+		if(playerTarget.transform.position.z - transform.position.z >= -.25
+			&& playerTarget.transform.position.z - transform.position.z <= .25)
 		{
 			if(CanAttack())
 				Shoot();
@@ -110,7 +117,9 @@ function Shoot()
 	newBullet.gameObject.GetComponent(EnemyBulletController).SetDamage(damage);
 	newBullet.gameObject.GetComponent(EnemyBulletController).SetDirection(Vector3(direction, 0, 0));
 	
-	newBullet.rigidbody.AddForce(Vector3(direction * 1000, 0, 0));
+	newBullet.transform.localScale.x *= 1.0;
+	newBullet.transform.localScale.y *= 0.5;
+	newBullet.transform.localScale.z *= 0.5;
 	
 }
 
@@ -118,4 +127,11 @@ function Damage(amount: float)
 {
 	if(amount > 0)
 		health -= amount;
+}
+
+function Death()
+{
+	playerTarget.GetComponent(PlayerController).AddScore(scoreValue);
+
+	Destroy(gameObject);
 }
