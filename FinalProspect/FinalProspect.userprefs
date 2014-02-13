@@ -1,12 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Characters/Main Character/PlayerController.js">
-    <Files>
-      <File FileName="Assets/Prefabs/Enemies/Level 1/HoverBot/HBController.js" Line="31" Column="80" />
-      <File FileName="Assets/Characters/Main Character/PlayerController.js" Line="224" Column="47" />
-      <File FileName="Assets/Prefabs/Enemies/Level 1/AlienFootSoldier/AFSController.js" Line="55" Column="30" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

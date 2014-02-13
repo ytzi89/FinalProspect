@@ -15,7 +15,7 @@ private var playerSpotted: boolean = false;
 
 private var isAttacking: boolean = false;
 
-private var health: float = 5.0;
+private var health: float = 15.0;
 
 private var permanentY: float;
 
