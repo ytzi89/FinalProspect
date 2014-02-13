@@ -1,13 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Prefabs/Enemies/Level 1/HoverBot/HBController.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Characters/Main Character/PlayerController.js">
     <Files>
-      <File FileName="Assets/Characters/Main Character/PlayerController.js" Line="93" Column="78" />
-      <File FileName="Assets/Prefabs/Enemies/Level 1/HoverBot/HBController.js" Line="33" Column="36" />
-      <File FileName="Assets/Prefabs/Enemies/Level 1/AlienFootSoldier/AFSController.js" Line="96" Column="69" />
-      <File FileName="Assets/Characters/Main Character/PlayerHealth.js" Line="68" Column="120" />
-      <File FileName="Assets/Prefabs/Bullets/PlayerBullet/PlayerBulletController.js" Line="45" Column="23" />
-      <File FileName="Assets/Prefabs/Bullets/EnemyBullet/EnemyBulletController.js" Line="8" Column="31" />
+      <File FileName="Assets/Prefabs/Enemies/Level 1/HoverBot/HBController.js" Line="31" Column="80" />
+      <File FileName="Assets/Characters/Main Character/PlayerController.js" Line="224" Column="47" />
+      <File FileName="Assets/Prefabs/Enemies/Level 1/AlienFootSoldier/AFSController.js" Line="55" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

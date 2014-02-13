@@ -28,7 +28,7 @@ function Start () {
 
 	playerTarget = GameObject.FindGameObjectWithTag("Player");
 
-	permanentY = transform.position.y = playerTarget.collider.bounds.extents.y * 4;
+	permanentY = transform.position.y = playerTarget.collider.bounds.extents.y * 3;
 	
 	hbArray = GameObject.FindGameObjectsWithTag("HoverBot");
 

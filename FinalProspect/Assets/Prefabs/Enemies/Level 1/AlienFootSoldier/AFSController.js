@@ -22,6 +22,8 @@ var afsArray: GameObject[];
 
 function Start () {
 
+	transform.localScale.x *= -1;
+
 	playerTarget = GameObject.FindGameObjectWithTag("Player");
 
 	afsArray = GameObject.FindGameObjectsWithTag("AlienFS");
@@ -42,10 +44,16 @@ function Update () {
 	if(playerTarget.transform.position.x < transform.position.x)
 	{
 		direction = -1;
+		
+		if(transform.localScale.x > 0)
+			transform.localScale.x *= -1;
 	}
 	else
 	{
 		direction = 1;
+		
+		if(transform.localScale.x < 0)
+			transform.localScale.x *= -1;
 	}
 	
 	// Update attack counter

@@ -31,6 +31,11 @@ private var eastBound: float;
 // Score
 private var playerScore: float;
 
+// Animation
+var sprites: Sprite[];
+private var walkTimer: float = 0.0;
+
+
 function Start () {
 
 	pWeapon = 0;	// Starter weapon (pistol)
@@ -164,7 +169,77 @@ function Movement()
 	{
 		transform.position.x = eastBound - (collider.bounds.extents.x * 0.5);
 	}
+	
+	// Set bounding box
+	/*if(Input.GetKeyDown(KeyCode.LeftControl))
+	{
+		collider.bounds.size.y = 0.15;
+		collider.bounds.center.y = -0.15;
+	}
+	
+	if(Input.GetKeyUp(KeyCode.LeftControl))
+	{
+		collider.bounds.size.y = 0.4;
+		collider.bounds.center.y = -0.05;
+	}*/
+	
+	SetAnimation(movement);
 		
+}
+
+function SetAnimation(move: Vector3)
+{
+	var spriteRenderer = renderer as SpriteRenderer;
+	
+	// Flip direction
+	var mp = Input.mousePosition;
+	mp = cameraObject.ScreenToWorldPoint(mp);
+	
+	if(mp.x - collider.bounds.center.x > 0)
+	{
+		if(transform.localScale.x < 0)
+			transform.localScale.x *= -1;
+	}
+	else if(mp.x - collider.bounds.center.x < 0)
+	{
+		if(transform.localScale.x > 0)
+			transform.localScale.x *= -1;
+	}
+
+	// Check state
+	if(!IsGrounded())
+	{
+		spriteRenderer.sprite = sprites[(pWeapon * 4) + 3];
+	}
+	else if(Input.GetKey(KeyCode.LeftControl))
+	{
+		spriteRenderer.sprite = sprites[(pWeapon * 4) + 2];
+	}
+	else if(move.magnitude > 0)
+	{
+		Walk();
+	}
+	else
+	{
+		spriteRenderer.sprite = sprites[(pWeapon * 4) + 0];
+	}
+}
+
+function Walk()
+{
+	var spriteRenderer = renderer as SpriteRenderer;
+
+	walkTimer += Time.deltaTime;
+	
+	if(walkTimer >= .15)
+	{
+		if(spriteRenderer.sprite == sprites[(pWeapon * 4) + 0])
+			spriteRenderer.sprite = sprites[(pWeapon * 4) + 1];
+		else
+			spriteRenderer.sprite = sprites[(pWeapon * 4) + 0];
+			
+		walkTimer = 0.0;
+	}
 }
 
 function IsGrounded(): boolean
