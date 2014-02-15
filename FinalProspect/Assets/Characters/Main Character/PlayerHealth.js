@@ -89,9 +89,9 @@ function OnGUI()
 	var currWeapon: int = gameObject.GetComponent(PlayerController).GetCurrentWeapon();
 	
 	// Weapon inventory
-	CreateIcon(Screen.width * 0.5 - 100, Screen.height - 65, currWeapon == 0 ? true : false, pistolGun);
-	CreateIcon(Screen.width * 0.5 - 25, Screen.height - 65, currWeapon == 1 ? true : false, machineGun);
-	CreateIcon(Screen.width * 0.5 + 50, Screen.height - 65, currWeapon == 2 ? true : false, laserGun);
+	CreateIcon(Screen.width * 0.5 - 258, Screen.height * 0.9, currWeapon == 0 ? true : false, pistolGun);
+	CreateIcon(Screen.width * 0.5 - 64, Screen.height * 0.9, currWeapon == 1 ? true : false, machineGun);
+	CreateIcon(Screen.width * 0.5 + 128, Screen.height * 0.9, currWeapon == 2 ? true : false, laserGun);
 
 }
 
@@ -105,10 +105,10 @@ function CreateIcon(xpos: int, ypos: int, current: boolean, gunTex: Texture2D)
 		newTex.SetPixel(0, 0, Color.black);
 	newTex.Apply();
 	GUI.skin.box.normal.background = newTex;
-	GUI.Box(Rect(xpos, ypos, 50, 50), "");
+	GUI.Box(Rect(xpos, ypos, 138, 74), "");
 	
 	GUI.skin.box.normal.background = gunTex;
-	GUI.Box(Rect(xpos + 5, ypos + 5, 40, 40), "");
+	GUI.Box(Rect(xpos + 5, ypos + 5, 128, 64), "");
 }
 
 function GetHealthValues()
