@@ -1,5 +1,16 @@
 ﻿#pragma strict
 
+// Public variables
+
+var tHealthBar: Texture2D;
+var tCooldownBar: Texture2D;
+var tScoreBar: Texture2D;
+
+// Gun icons
+var pistolGun: Texture2D;
+var machineGun: Texture2D;
+var laserGun: Texture2D;
+
 // Private variables
 private var currentHealth: float;
 private var maxHealth: float;
@@ -8,11 +19,6 @@ private var attackSpeed: float;
 private var lastAttack: float;
 
 private var playerScore: float;
-
-// Gun icons
-var pistolGun: Texture2D;
-var machineGun: Texture2D;
-var laserGun: Texture2D;
 
 function Start () {
 
@@ -35,16 +41,19 @@ function OnGUI()
 
 	// Health bar
 	var tex: Texture2D = new Texture2D(1, 1);
-	tex.SetPixel(0, 0, Color.grey);
+	GUI.skin.box.normal.background = tHealthBar;
+	GUI.Box(Rect(25, 35, (Screen.width - 150) * 0.5, 55), "");
+	
+	tex.SetPixel(0, 0, Color.gray);
 	tex.Apply();
 	GUI.skin.box.normal.background = tex;
-	GUI.Box(Rect(25, 50, (Screen.width - 150) * 0.5, 25), "");
+	GUI.Box(Rect(35, 50, (Screen.width - 190) * 0.5, 25), "");
 	
 	tex.SetPixel(0, 0, Color.red);
 	tex.Apply();
 	GUI.skin.box.normal.background = tex;
-	GUI.Box(Rect((Screen.width - 25) * 0.5 * (1 - currentHealth / maxHealth) + 25, 50, 
-			((Screen.width - 150) * 0.5) * (currentHealth / maxHealth), 25), "");
+	GUI.Box(Rect((Screen.width - 190) * 0.5 * (1 - currentHealth / maxHealth) + 35, 50, 
+			((Screen.width - 190) * 0.5) * (currentHealth / maxHealth), 25), "");
 	
 	
 	tex.SetPixel(0, 0, Color.clear);
@@ -53,38 +62,44 @@ function OnGUI()
 		
 	if(currentHealth > 0)
 	{
-		GUI.Box(Rect(25, 50, (Screen.width - 150) * 0.5, 25), "Health: " + currentHealth + "/" + maxHealth);
+		GUI.Box(Rect(35, 50, (Screen.width - 190) * 0.5, 25), "Health: " + currentHealth + "/" + maxHealth);
 	}
 	else
 	{
-		GUI.Box(Rect(25, 50, (Screen.width - 150) * 0.5, 25), "DEAD");
+		GUI.Box(Rect(35, 50, (Screen.width - 190) * 0.5, 25), "DEAD");
 	}
 	
 	// Attack bar
-	tex.SetPixel(0, 0, Color.grey);
+	GUI.skin.box.normal.background = tCooldownBar;
+	GUI.Box(Rect(Screen.width * 0.5 + 50, 35, (Screen.width - 150) * 0.5, 55), "");
+	
+	tex.SetPixel(0, 0, Color.gray);
 	tex.Apply();
 	GUI.skin.box.normal.background = tex;
-	GUI.Box(Rect(Screen.width * 0.5 + 50, 50, (Screen.width - 150) * 0.5, 25), "");
+	GUI.Box(Rect(Screen.width * 0.5 + 60, 50, (Screen.width - 190) * 0.5, 25), "");
 	
 	tex.SetPixel(0, 0, Color.black);
 	tex.Apply();
 	GUI.skin.box.normal.background = tex;
-	GUI.Box(Rect(Screen.width * 0.5 + 50, 50, ((Screen.width - 150) * 0.5) * (lastAttack / attackSpeed), 25), "");
+	GUI.Box(Rect(Screen.width * 0.5 + 60, 50, ((Screen.width - 190) * 0.5) * (lastAttack / attackSpeed), 25), "");
 	
 	tex.SetPixel(0, 0, Color.clear);
 	tex.Apply();
 	GUI.skin.box.normal.background = tex;
-	GUI.Box(Rect(Screen.width * 0.5 + 50, 50, (Screen.width - 150) * 0.5, 25), "Fire Rate: " + (1 / attackSpeed) + " Per Second");
+	GUI.Box(Rect(Screen.width * 0.5 + 60, 50, (Screen.width - 190) * 0.5, 25), "Fire Rate: " + (1 / attackSpeed) + " Per Second");
 	
 	// Score
+	GUI.skin.box.normal.background = tScoreBar;
+	GUI.Box(Rect(Screen.width * 0.5 - 60, 10, 120, 100), "");
+	
 	var style: GUIStyle = new GUIStyle();
 	style.fontSize = 25;
 	style.alignment = TextAnchor.MiddleCenter;
 	style.normal.textColor = Color.white;
 	
-	GUI.Label(Rect(Screen.width * 0.5 - 50, 20, 100, 25), "Score", style);
+	GUI.Label(Rect(Screen.width * 0.5 - 50, 30, 100, 25), "Score", style);
 	
-	GUI.Label(Rect(Screen.width * 0.5 - 50, 50, 100, 25), playerScore.ToString(), style);
+	GUI.Label(Rect(Screen.width * 0.5 - 50, 60, 100, 25), playerScore.ToString(), style);
 	
 	var currWeapon: int = gameObject.GetComponent(PlayerController).GetCurrentWeapon();
 	
