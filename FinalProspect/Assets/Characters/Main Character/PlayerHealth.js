@@ -22,6 +22,7 @@ private var lastAttack: float;
 private var playerScore: float;
 
 var gameOver: boolean = false;
+var levelComplete: boolean = false;
 
 function Start () {
 
@@ -42,9 +43,10 @@ function Update () {
 function OnGUI()
 {
 	if(gameOver)
-	{
-		GameOver(playerScore);
-	}
+		GameOver();
+		
+	if(levelComplete)
+		NextLevel();
 	
 	// Health bar
 	var tex: Texture2D = new Texture2D(1, 1);
@@ -154,15 +156,28 @@ function GetPlayerScore()
 	return playerScore;
 }
 
-function GameOver(score: int)
+function GameOver()
 {
 	GUI.skin.box.normal.background = tGameOver;
-	GUI.Box(Rect(Screen.width * 0.5 - 150, Screen.height * 0.5 - 150, 300, 300), "");
+	GUI.Box(Rect(Screen.width * 0.5 - 165, Screen.height * 0.5 - 165, 330, 330), "");
 	
 	var style: GUIStyle = new GUIStyle();
 	style.fontSize = 25;
 	style.alignment = TextAnchor.MiddleCenter;
 	style.normal.textColor = Color.white;
 	
-	GUI.Label(Rect(Screen.width * 0.5 - 100, Screen.height * 0.5 - 100, 200, 200), "GAME OVER\n\nScore:\n" + (GetPlayerScore().ToString()) + "\n\n Press 'Enter' to restart.", style);
+	GUI.Label(Rect(Screen.width * 0.5 - 100, Screen.height * 0.5 - 100, 200, 200), "GAME OVER\n\nScore:\n" + (GetPlayerScore().ToString()) + "\n\nPress 'Enter' to restart.", style);
+}
+
+function NextLevel()
+{
+	GUI.skin.box.normal.background = tGameOver;
+	GUI.Box(Rect(Screen.width * 0.5 - 165, Screen.height * 0.5 - 165, 330, 330), "");
+	
+	var style: GUIStyle = new GUIStyle();
+	style.fontSize = 25;
+	style.alignment = TextAnchor.MiddleCenter;
+	style.normal.textColor = Color.white;
+	
+	GUI.Label(Rect(Screen.width * 0.5 - 100, Screen.height * 0.5 - 100, 200, 200), "LEVEL COMPLETE\n\nScore:\n" + (GetPlayerScore().ToString()) + "\n\nPress 'Enter' to proceed.", style);
 }

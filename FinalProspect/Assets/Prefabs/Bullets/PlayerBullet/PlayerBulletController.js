@@ -27,25 +27,61 @@ function Update () {
 	
 	// Move bullet
 	transform.Translate(Vector3(speed * direction, 0, 0));
+	
+	CheckCollision();
 
 }
 
-function OnCollisionEnter(collision: Collision)
+function CheckCollision()
 {
-	if(collision.gameObject.tag == "AlienFS")
-	{
-		collision.gameObject.GetComponent(AFSController).Damage(damage);
+	var afsArray: GameObject[] = GameObject.FindGameObjectsWithTag("AlienFS");
+	var hbArray: GameObject[] = GameObject.FindGameObjectsWithTag("HoverBot");
 	
-		Destroy(gameObject);
-	}
-	else if(collision.gameObject.tag == "HoverBot")
+	for(var afs: GameObject in afsArray)
 	{
-		collision.gameObject.GetComponent(HBController).Damage(damage);
-		
-		Destroy(gameObject);
+		if((transform.position - afs.transform.position).magnitude < 40.0f)
+		{
+			if(collider.bounds.center.x <= afs.collider.bounds.center.x + afs.collider.bounds.extents.x
+				&& collider.bounds.center.x >= afs.collider.bounds.center.x - afs.collider.bounds.extents.x)
+				{
+					if(collider.bounds.center.z <= afs.collider.bounds.center.z + afs.collider.bounds.extents.z
+						&& collider.bounds.center.z >= afs.collider.bounds.center.z - afs.collider.bounds.extents.z)
+						{
+							if(collider.bounds.center.y <= afs.collider.bounds.center.y + afs.collider.bounds.extents.y
+								&& collider.bounds.center.y >= afs.collider.bounds.center.y - afs.collider.bounds.extents.y)
+								{
+									afs.gameObject.GetComponent(AFSController).Damage(damage);
+
+									Destroy(gameObject);
+								}
+						}
+				}
+		}
 	}
 	
-	if(collision.gameObject.tag == "Ground")
+	for(var hb: GameObject in hbArray)
+	{
+		if((transform.position - hb.transform.position).magnitude < 40.0f)
+		{
+			if(collider.bounds.center.x <= hb.collider.bounds.center.x + hb.collider.bounds.extents.x
+				&& collider.bounds.center.x >= hb.collider.bounds.center.x - hb.collider.bounds.extents.x)
+				{
+					if(collider.bounds.center.z <= hb.collider.bounds.center.z + hb.collider.bounds.extents.z
+						&& collider.bounds.center.z >= hb.collider.bounds.center.z - hb.collider.bounds.extents.z)
+						{
+							if(collider.bounds.center.y <= hb.collider.bounds.center.y + hb.collider.bounds.extents.y
+								&& collider.bounds.center.y >= hb.collider.bounds.center.y - hb.collider.bounds.extents.y)
+								{
+									hb.gameObject.GetComponent(HBController).Damage(damage);
+								
+									Destroy(gameObject);
+								}
+						}
+				}
+		}
+	}
+	
+	if(transform.position.y < 0)
 	{
 		Destroy(gameObject);
 	}

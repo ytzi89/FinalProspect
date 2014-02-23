@@ -40,7 +40,8 @@ private var playerScore: float;
 var sprites: Sprite[];
 private var walkTimer: float = 0.0;
 
-var gameOver: boolean = false;
+private var gameOver: boolean = false;
+private var levelComplete: boolean = false;
 
 
 function Start () {
@@ -74,7 +75,7 @@ function Start () {
 
 function Update () {
 	
-	if(!gameOver)
+	if(!gameOver && !levelComplete)
 	{
 		if(pCurrentHealth <= 0)
 			Death();
@@ -87,7 +88,15 @@ function Update () {
 	{
 		if(Input.GetKeyDown(KeyCode.Return))
 		{
-			Application.LoadLevel("Main Menu");
+			if(gameOver)
+				Application.LoadLevel("Main Menu");
+			else if(levelComplete)
+			{
+				if(Application.loadedLevelName == "Level1")
+					Application.LoadLevel("Level2");
+				else
+					Application.LoadLevel("Main Menu");
+			}
 		}
 	}
 }
@@ -153,6 +162,18 @@ function Shoot()
 // Player movement
 function Movement()
 {
+
+	// Finish level
+	if(transform.position.x >= lastBoundObject.collider.bounds.center.x)
+	{
+		var afsArray: GameObject[] = GameObject.FindGameObjectsWithTag("AlienFS");
+		var hbArray: GameObject[] = GameObject.FindGameObjectsWithTag("HoverBot");
+		
+		if(afsArray.Length == 0 && hbArray.Length == 0)
+		{
+			NextLevel();
+		}
+	}
 	
 	//setting both the horizontal and vertical movement of our character 
 	var horizontalMovement = Input.GetAxis("Horizontal") * pSpeed * Time.deltaTime;
@@ -341,7 +362,7 @@ function ChangeWeapon(wpn: int)
 			pLastAttack = 0.0;
 			break;
 		case 1:	// Machine gun
-			pDamage = 2.0;
+			pDamage = 2.0f;
 			pAttackSpeed = 0.1;
 			pLastAttack = 0.0;
 			break;
@@ -356,6 +377,13 @@ function ChangeWeapon(wpn: int)
 function GetCurrentWeapon(): int
 {
 	return pWeapon;
+}
+
+function NextLevel()
+{
+	gameObject.GetComponent(PlayerHealth).levelComplete = true;
+	
+	levelComplete = true;
 }
 
 function Death()
