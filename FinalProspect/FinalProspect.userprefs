@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../Unity Projects/Pixume/Assets/Scripts/FirstPersonCamera.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Art\Menu Assets\Scripts\Main Menu.js">
     <Files>
-      <File FileName="../../Unity Projects/Pixume/Assets/Scripts/FirstPersonCamera.cs" Line="8" Column="36" />
+      <File FileName="Assets\Art\Menu Assets\Scripts\Main Menu.js" Line="29" Column="2" />
+      <File FileName="Assets\Art\Menu Assets\Scripts\Main Menu.js" Line="20" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
