@@ -5,6 +5,7 @@
 var tHealthBar: Texture2D;
 var tCooldownBar: Texture2D;
 var tScoreBar: Texture2D;
+var tGameOver: Texture2D;
 
 // Gun icons
 var pistolGun: Texture2D;
@@ -19,6 +20,8 @@ private var attackSpeed: float;
 private var lastAttack: float;
 
 private var playerScore: float;
+
+var gameOver: boolean = false;
 
 function Start () {
 
@@ -38,7 +41,11 @@ function Update () {
 
 function OnGUI()
 {
-
+	if(gameOver)
+	{
+		GameOver(playerScore);
+	}
+	
 	// Health bar
 	var tex: Texture2D = new Texture2D(1, 1);
 	GUI.skin.box.normal.background = tHealthBar;
@@ -144,4 +151,18 @@ function GetAttackValues()
 function GetPlayerScore()
 {
 	playerScore = gameObject.GetComponent(PlayerController).GetScore();
+	return playerScore;
+}
+
+function GameOver(score: int)
+{
+	GUI.skin.box.normal.background = tGameOver;
+	GUI.Box(Rect(Screen.width * 0.5 - 150, Screen.height * 0.5 - 150, 300, 300), "");
+	
+	var style: GUIStyle = new GUIStyle();
+	style.fontSize = 25;
+	style.alignment = TextAnchor.MiddleCenter;
+	style.normal.textColor = Color.white;
+	
+	GUI.Label(Rect(Screen.width * 0.5 - 100, Screen.height * 0.5 - 100, 200, 200), "GAME OVER\n\nScore:\n" + (GetPlayerScore().ToString()) + "\n\n Press 'Enter' to restart.", style);
 }

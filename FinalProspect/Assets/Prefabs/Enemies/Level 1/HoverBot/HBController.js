@@ -4,6 +4,8 @@
 var playerTarget: GameObject;
 var bulletObject: GameObject;
 
+var sfxShoot: AudioClip;
+
 // Private Variables
 private var speed: float = 10.0;
 private var damage: float = 15.0;
@@ -50,7 +52,7 @@ function Update () {
 	if(!isAttacking)
 	{
 		// Always face the player
-		if(playerTarget.transform.position.x < transform.position.x)
+		if(playerTarget.collider.bounds.center.x < collider.bounds.center.x)
 		{
 			direction = -1;
 		}
@@ -65,17 +67,17 @@ function Update () {
 			var movement: Vector3 = Vector3.zero;
 		
 			// Line up with player
-			if(playerTarget.transform.position.z != transform.position.z)
+			if(playerTarget.collider.bounds.center.z != collider.bounds.center.z)
 			{
-				if(playerTarget.transform.position.z > transform.position.z)
+				if(playerTarget.collider.bounds.center.z > collider.bounds.center.z)
 					movement.z = speed * 1.5 * Time.deltaTime;
 				else
 					movement.z = -speed * 1.5 * Time.deltaTime;
 			}
 			
-			if(playerTarget.transform.position.x != transform.position.x)
+			if(playerTarget.collider.bounds.center.x != collider.bounds.center.x)
 			{
-				if(playerTarget.transform.position.x > transform.position.x)
+				if(playerTarget.collider.bounds.center.x > collider.bounds.center.x)
 					movement.x = speed * Time.deltaTime;
 				else
 					movement.x = -speed * Time.deltaTime;
@@ -117,7 +119,9 @@ function DistanceToPlayer()
 function Shoot()
 {		
 
-	var ypos = transform.position.y - 1;
+	audio.PlayOneShot(sfxShoot, 1.0f);
+
+	var ypos = transform.position.y - 2;
 
 	var newBullet: GameObject = Instantiate(bulletObject.gameObject, Vector3(transform.position.x, ypos, transform.position.z), Quaternion.identity) as GameObject;
 	

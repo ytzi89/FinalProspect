@@ -4,6 +4,8 @@
 var playerTarget: GameObject;
 var bulletObject: GameObject;
 
+var sfxShoot: AudioClip;
+
 // Private Variables
 private var speed: float = 5.0;
 private var damage: float = 5.0;
@@ -116,9 +118,11 @@ function CanAttack(): boolean
 
 function Shoot()
 {		
+	audio.PlayOneShot(sfxShoot, 1.0f);
+	
 	lastAttack = 0.0;
 	
-	var xpos: float = transform.position.x + (1 * direction);
+	var xpos: float = transform.position.x + (3 * direction);
 
 	var newBullet: GameObject = Instantiate(bulletObject.gameObject, Vector3(xpos, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
 	

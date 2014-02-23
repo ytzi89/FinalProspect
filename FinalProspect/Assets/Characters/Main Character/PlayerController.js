@@ -7,6 +7,11 @@ var lastBoundObject: GameObject;
 
 var playerBullet: GameObject;
 
+var sfxDamaged: AudioClip;
+var sfxPistol: AudioClip;
+var sfxMachineGun: AudioClip;
+var sfxLaser: AudioClip;
+
 // Private variables
 
 private var cameraObject: Camera;
@@ -34,6 +39,8 @@ private var playerScore: float;
 // Animation
 var sprites: Sprite[];
 private var walkTimer: float = 0.0;
+
+var gameOver: boolean = false;
 
 
 function Start () {
@@ -67,12 +74,22 @@ function Start () {
 
 function Update () {
 	
-	if(pCurrentHealth <= 0)
-		Death();
+	if(!gameOver)
+	{
+		if(pCurrentHealth <= 0)
+			Death();
 	
-	Movement();
+		Movement();
 	
-	PlayerActions();
+		PlayerActions();
+	}
+	else
+	{
+		if(Input.GetKeyDown(KeyCode.Return))
+		{
+			Application.LoadLevel("Main Menu");
+		}
+	}
 }
 
 function PlayerActions()
@@ -103,6 +120,13 @@ function PlayerActions()
 
 function Shoot()
 {
+	if(pWeapon == 0)		// Pistol
+		audio.PlayOneShot(sfxPistol, 1.0f);
+	else if(pWeapon == 1)	// Machin Gun
+		audio.PlayOneShot(sfxMachineGun, 1.0f);
+	else if(pWeapon == 2)	// Laser
+		audio.PlayOneShot(sfxLaser, 1.0f);
+
 	var mp = Input.mousePosition;
 	mp = cameraObject.ScreenToWorldPoint(mp);
 	
@@ -284,6 +308,8 @@ function Damage(amount: float)
 {
 	if(amount > 0)
 	{
+		audio.PlayOneShot(sfxDamaged, 1.0f);
+	
 		pCurrentHealth -= amount;
 		
 		if(pCurrentHealth < 0)
@@ -334,5 +360,7 @@ function GetCurrentWeapon(): int
 
 function Death()
 {
+	gameObject.GetComponent(PlayerHealth).gameOver = true;
 	
+	gameOver = true;
 }
