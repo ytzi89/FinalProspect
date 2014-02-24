@@ -8,6 +8,7 @@ var lastBoundObject: GameObject;
 var playerBullet: GameObject;
 
 var sfxDamaged: AudioClip;
+var sfxJump: AudioClip;
 var sfxPistol: AudioClip;
 var sfxMachineGun: AudioClip;
 var sfxLaser: AudioClip;
@@ -130,7 +131,7 @@ function PlayerActions()
 function Shoot()
 {
 	if(pWeapon == 0)		// Pistol
-		audio.PlayOneShot(sfxPistol, 1.0f);
+		audio.PlayOneShot(sfxPistol, 0.25f);
 	else if(pWeapon == 1)	// Machin Gun
 		audio.PlayOneShot(sfxMachineGun, 1.0f);
 	else if(pWeapon == 2)	// Laser
@@ -191,6 +192,7 @@ function Movement()
 	//if the space bar is pressed jump 
 	if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
 	{
+		audio.PlayOneShot(sfxJump, 1.0f);
 		vVelocity = pJumpSpeed;
 	}
 	
