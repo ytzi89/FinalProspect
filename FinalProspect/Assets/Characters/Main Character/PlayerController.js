@@ -43,6 +43,9 @@ private var walkTimer: float = 0.0;
 private var gameOver: boolean = false;
 private var levelComplete: boolean = false;
 
+private var gravity = 0.02f;
+private var vVelocity = 0.0f;
+
 
 function Start () {
 
@@ -59,12 +62,9 @@ function Start () {
 	pAttackSpeed = 0.5;
 	pLastAttack = pAttackSpeed;
 
-	// Increase gravity
-	Physics.gravity *= 5;
-
 	pMaxHealth = pCurrentHealth = 100;
 	pSpeed = 12;
-	pJumpSpeed = 20; //set the speed at which the player jumps
+	pJumpSpeed = 0.5f; //set the speed at which the player jumps
 	
 	northBound = boundObject.transform.position.z + boundObject.collider.bounds.extents.z;
 	southBound = boundObject.transform.position.z - boundObject.collider.bounds.extents.z; 
@@ -162,6 +162,7 @@ function Shoot()
 // Player movement
 function Movement()
 {
+	vVelocity -= gravity;
 
 	// Finish level
 	if(transform.position.x >= lastBoundObject.collider.bounds.center.x)
@@ -179,15 +180,19 @@ function Movement()
 	var horizontalMovement = Input.GetAxis("Horizontal") * pSpeed * Time.deltaTime;
 	var verticalMovement = Input.GetAxis("Vertical") * pSpeed * 1.5 * Time.deltaTime;// * 0.75;
 	//store the horizont and vertical movement into on 3d vector variable
-	var movement = Vector3(horizontalMovement, 0, verticalMovement);
+	var movement = Vector3(horizontalMovement, vVelocity, verticalMovement);
 	
-		
+	if(transform.position.y + movement.y <= 3.0f)
+	{
+		movement.y = 0.0f;
+		transform.position.y = 3.0f;
+	}
+	
 	//if the space bar is pressed jump 
 	if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
 	{
-		rigidbody.velocity += Vector3.up * pJumpSpeed;
+		vVelocity = pJumpSpeed;
 	}
-	
 	
 	transform.Translate(movement);
 	
@@ -289,7 +294,7 @@ function Walk()
 
 function IsGrounded(): boolean
 {
-	return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + 0.1);
+	return transform.position.y <= 3.0f;
 }
 
 function GetAttackSpeed(): float

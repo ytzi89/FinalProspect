@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Art\Menu Assets\Scripts\Main Menu.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Characters/Main Character/PlayerHealth.js">
     <Files>
-      <File FileName="Assets\Art\Menu Assets\Scripts\Main Menu.js" Line="29" Column="2" />
-      <File FileName="Assets\Art\Menu Assets\Scripts\Main Menu.js" Line="20" Column="13" />
+      <File FileName="Assets/Characters/Main Character/PlayerHealth.js" Line="118" Column="62" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -15,7 +15,7 @@ private var direction: int = -1;
 
 private var playerSpotted: boolean = false;
 
-private var health: float = 10.0;
+private var health: float = 15.0;
 
 private var scoreValue: float = 10.0;
 
@@ -23,6 +23,8 @@ private var scoreValue: float = 10.0;
 var afsArray: GameObject[];
 
 function Start () {
+
+	speed = Random.Range(4.0, 7.0);
 
 	transform.localScale.x *= -1;
 

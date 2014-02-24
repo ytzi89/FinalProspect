@@ -17,7 +17,7 @@ private var playerSpotted: boolean = false;
 
 private var isAttacking: boolean = false;
 
-private var health: float = 15.0;
+private var health: float = 12.0;
 
 private var permanentY: float;
 
@@ -26,7 +26,13 @@ private var scoreValue: float = 25.0;
 // HoverBot Array
 private var hbArray: GameObject[];
 
+private var lastPosition: Vector3;
+
 function Start () {
+
+	speed = Random.Range(9.0, 12.0);
+
+	lastPosition = collider.bounds.center;
 
 	playerTarget = GameObject.FindGameObjectWithTag("Player");
 
@@ -40,6 +46,8 @@ function Update () {
 
 	// Ensure height is correct
 	transform.position.y = permanentY;
+	
+	lastPosition = collider.bounds.center;
 
 	if(health <= 0)
 		Death();
@@ -93,6 +101,7 @@ function Update () {
 			
 			// Apply movement
 			transform.Translate(movement);
+			
 		}
 	}
 	else	// Charge up and shoot
